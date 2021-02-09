@@ -111,7 +111,7 @@ function char_array_string_range(array, from, to, safe) {
 /// @argument {number} count The number of characters, starting from the position of the first
 /// @argument {string} char The character to check
 /// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {string} Returns the amount of times the given character appears within a slice of the character array
+/// @returns {number} Returns the amount of times the given character appears within a slice of the character array
 function char_array_count(array, index, count, char, safe) {
 	if (count >= 0) {
 		return char_array_count_range(array, index, index + count, char, safe);
@@ -127,7 +127,7 @@ function char_array_count(array, index, count, char, safe) {
 /// @argument {number} to The position of the last character in the array
 /// @argument {string} char The character to check
 /// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {string} Returns the amount of times the given character appears within a slice of the character array
+/// @returns {number} Returns the amount of times the given character appears within a slice of the character array
 function char_array_count_range(array, from, to, char, safe) {
 	var count = 0;
 		
