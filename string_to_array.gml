@@ -217,10 +217,12 @@ function char_array_delete_range(array, from, to, safe) {
 		to = clamp(to, 1, length);
 	}
 	
-	var out = array_create(length + from - to, "-1");
-	array_copy(out, 0, array, 0, from);
-	array_copy(out, from, array, to, length - to);
-	return out;
+	for (var i = to; i < length; i++) {
+		array[i + from - to] = array[i];
+	}
+	
+	array_resize(array, length + from - to);
+	return array;
 }
 
 /// @function char_array_insert(array, index, char, safe)
@@ -229,17 +231,78 @@ function char_array_delete_range(array, from, to, safe) {
 /// @argument {number} index The position in the array to insert the character
 /// @argument {string} char The character to insert
 /// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {array} Returns new array with specified part in it
+/// @returns {array} Returns new array with inserted character in it
 function char_array_insert(array, index, char, safe) {
 	var length = array_length(array);
+	array_resize(array, length + 1);
 		
 	if (safe) {
 		index = clamp(index, 0, length);
 	}
 	
-	var out = array_create(length + 1, "-1");
-	array_copy(out, 0, array, 0, index);
-	out[index] = char;
-	array_copy(out, index + 1, array, index, length - index);
-	return out;
+	for (var i = length; i > index; i--) {
+		array[i] = array[i - 1];
+	}
+	
+	array[index] = char;
+	return array;
+}
+
+/// function char_array_replace_range(array, from, to, char, safe)
+/// @description This function replaces all characters in a specific part of the given character array
+/// @argument {array} array The array of characters in which to replace
+/// @argument {number} index The position of the first character in the array to replace from
+/// @argument {number} count The number of characters, starting from the position of the first
+/// @argument {string} char The character to replace with
+/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {array} Returns new array with specified part filled with the given character
+function char_array_replace(array, index, count, char, safe) {
+	if (count >= 0) {
+		return char_array_replace_range(array, index, index + count, char, safe);
+	} else {
+		return char_array_replace_range(array, index + count + 1, index + 1, char, safe);
+	}
+}
+
+/// function char_array_replace_range(array, from, to, char, safe)
+/// @description This function replaces all characters in a specific part of the given character array
+/// @argument {array} array The array of characters in which to replace
+/// @argument {number} from The position of the first character in the array
+/// @argument {number} to The position of the last character in the array
+/// @argument {string} char The character to replace with
+/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {array} Returns new array with specified part filled with the given character
+function char_array_replace_range(array, from, to, char, safe) {
+	if (safe) {
+		var length = array_length(array);
+		from = clamp(from, 0, length - 1);
+		to = clamp(to, 1, length);
+	}
+	
+	for (var i = from; i < to; i++) {
+		array[i] = char;
+	}
+	
+	return array;
+}
+
+/// @function char_array_remove(array, char)
+/// @description This function can be used to remove all occurrences of the given character
+/// @argument {array} array The array of characters to remove the given character from
+/// @argument {string} char The character to remove
+/// @returns {array} Returns new array without the given character
+function char_array_remove(array, char) {
+	var length = array_length(array);
+	var removed = 0;
+	
+	for (var i = 0; i < length; i++) {
+		if (array[i] == char) {
+			removed++;
+		} else {
+			array[i - removed] = array[i];
+		}
+	}
+	
+	array_resize(array, length - removed);
+	return array;
 }
