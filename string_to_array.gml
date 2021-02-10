@@ -222,3 +222,24 @@ function char_array_delete_range(array, from, to, safe) {
 	array_copy(out, from, array, to, length - to);
 	return out;
 }
+
+/// @function char_array_insert(array, index, char, safe)
+/// @description This function can be used to insert the character in the given character array
+/// @argument {array} array The array of characters to insert to
+/// @argument {number} index The position in the array to insert the character
+/// @argument {string} char The character to insert
+/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {array} Returns new array with specified part in it
+function char_array_insert(array, index, char, safe) {
+	var length = array_length(array);
+		
+	if (safe) {
+		index = clamp(index, 0, length);
+	}
+	
+	var out = array_create(length + 1, "-1");
+	array_copy(out, 0, array, 0, index);
+	out[index] = char;
+	array_copy(out, index + 1, array, index, length - index);
+	return out;
+}
