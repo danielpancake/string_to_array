@@ -98,7 +98,7 @@ function char_array_string_range(array, from, to, safe) {
 	}
 	
 	for (var i = from; i < to; i++) {
-		output += array[i];	
+		output += array[@ i];	
 	}
 	
 	return output;
@@ -138,7 +138,7 @@ function char_array_count_range(array, from, to, char, safe) {
 	}
 	
 	for (var i = from; i < to; i++) {
-		if (array[i] == char) count++;
+		if (array[@ i] == char) count++;
 	}
 	
 	return count;
@@ -169,8 +169,6 @@ function char_array_pos(array, index, count, char, safe) {
 /// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
 /// @returns {number} Returns position of the given character within a slice of the character array
 function char_array_pos_range(array, from, to, char, safe) {
-	var pos = -1;
-	
 	if (safe) {
 		var length = array_length(array);
 		from = clamp(from, 0, length - 1);
@@ -178,13 +176,60 @@ function char_array_pos_range(array, from, to, char, safe) {
 	}
 	
 	for (var i = from; i < to; i++) {
-		if (array[i] == char) {
-			pos = i;
-			break;
+		if (array[@ i] == char) {
+			return i;
 		}
 	}
 	
-	return pos;
+	return -1;
+}
+
+/// @function char_array_pos_any(array, index, count, chars, safe)
+/// @description This function returns position of one of the characters from subarray
+/// and the appeared character itself within a slice of the given character array
+/// @argument {array} array The array of characters to check in
+/// @argument {number} index The position of the first character in the array to search from
+/// @argument {number} count The number of characters, starting from the position of the first
+/// @argument {array} chars The subarray of characters
+/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {array} Returns position of one of the characters from the subarray with the character itself
+/// within a slice of the character array
+function char_array_pos_any(array, index, count, chars, safe) {
+	if (count >= 0) {
+		return char_array_pos_any_range(array, index, index + count, chars, safe);
+	} else {
+		return char_array_pos_any_range(array, index + count + 1, index + 1, chars, safe);
+	}
+}
+
+/// @function char_array_pos_any_range(array, index, count, chars, safe)
+/// @description This function returns position of one of the characters from subarray
+/// and the appeared character itself within a slice of the given character array
+/// @argument {array} array The array of characters to check in
+/// @argument {number} from The position of the first character in the array
+/// @argument {number} to The position of the last character in the array
+/// @argument {array} chars The subarray of characters
+/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {array} Returns position of one of the characters from the subarray with the character itself
+/// within a slice of the character array
+function char_array_pos_any_range(array, from, to, chars, safe) {
+	if (safe) {
+		var length = array_length(array);
+		from = clamp(from, 0, length - 1);
+		to = clamp(to, 1, length);
+	}
+	
+	var sublength = array_length(chars);
+	for (var i = from; i < to; i++) {
+		for (var j = 0; j < sublength; j++) {
+			var c = chars[@ j];
+			if (array[@ i] == c) {
+				return [i, c]
+			}
+		}
+	}
+	
+	return -1;
 }
 
 /// @function char_array_delete(array, length, index, count)
