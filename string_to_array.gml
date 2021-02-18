@@ -98,7 +98,7 @@ function char_array_string_range(array, from, to, safe) {
 	}
 	
 	for (var i = from; i < to; i++) {
-		output += array[@ i];	
+		output += array[i];	
 	}
 	
 	return output;
@@ -138,7 +138,7 @@ function char_array_count_range(array, from, to, char, safe) {
 	}
 	
 	for (var i = from; i < to; i++) {
-		if (array[@ i] == char) count++;
+		if (array[i] == char) count++;
 	}
 	
 	return count;
@@ -176,7 +176,7 @@ function char_array_pos_range(array, from, to, char, safe) {
 	}
 	
 	for (var i = from; i < to; i++) {
-		if (array[@ i] == char) {
+		if (array[i] == char) {
 			return i;
 		}
 	}
@@ -223,7 +223,7 @@ function char_array_pos_any_range(array, from, to, chars, safe) {
 	for (var i = from; i < to; i++) {
 		for (var j = 0; j < sublength; j++) {
 			var c = chars[@ j];
-			if (array[@ i] == c) {
+			if (array[i] == c) {
 				return [i, c]
 			}
 		}
