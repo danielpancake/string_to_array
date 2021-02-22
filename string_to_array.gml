@@ -1,5 +1,5 @@
 /// @function string_to_array(input, length)
-/// @description This function converts a string to a character array using a buffer and utf-8 byte encoding
+/// @description Converts a string to a character array using a buffer and utf-8 byte encoding
 /// @argument {string} input String to split into characters array
 /// @argument {number} length The length of the given string
 /// @returns {array} Returns an array of characters
@@ -67,7 +67,7 @@ function string_to_array(input, length) {
 */
 
 /// @function char_array_string(array, index, count, safe)
-/// @description This function returns a string from a slice of the given character array
+/// @description Returns a string from a slice of the given character array
 /// @argument {array} array The array of characters to make string from
 /// @argument {number} index The position of the first character in the array to copy from
 /// @argument {number} count The number of characters, starting from the position of the first
@@ -82,7 +82,7 @@ function char_array_string(array, index, count, safe) {
 }
 
 /// @function char_array_string_range(array, from, to, safe)
-/// @description This function returns a string from a slice of the given character array
+/// @description Returns a string from a slice of the given character array
 /// @argument {array} array The array of characters to make string from
 /// @argument {number} from The position of the first character in the array
 /// @argument {number} to The position of the last character in the array
@@ -105,7 +105,7 @@ function char_array_string_range(array, from, to, safe) {
 }
 
 /// @function char_array_count(array, index, count, char, safe)
-/// @description This function returns the amount of times the given character appears within a slice of the given character array
+/// @description Returns the amount of times the given character appears within a slice of the given character array
 /// @argument {array} array The array of characters to check in
 /// @argument {number} index The position of the first character in the array to count from
 /// @argument {number} count The number of characters, starting from the position of the first
@@ -121,7 +121,7 @@ function char_array_count(array, index, count, char, safe) {
 }
 
 /// @function char_array_count_range(array, from, to, char, safe)
-/// @description This function returns the amount of times the given character appears within a slice of the given character array
+/// @description Returns the amount of times the given character appears within a slice of the given character array
 /// @argument {array} array The array of characters to check in
 /// @argument {number} from The position of the first character in the array
 /// @argument {number} to The position of the last character in the array
@@ -145,7 +145,7 @@ function char_array_count_range(array, from, to, char, safe) {
 }
 
 /// @function char_array_pos(array, index, count, char, safe)
-/// @description This function returns the character position within a slice of the given character array
+/// @description Returns the character position within a slice of the given character array
 /// @argument {array} array The array of characters to check in
 /// @argument {number} index The position of the first character in the array to search from
 /// @argument {number} count The number of characters, starting from the position of the first
@@ -161,7 +161,7 @@ function char_array_pos(array, index, count, char, safe) {
 }
 
 /// @function char_array_pos_range(array, from, to, char, safe)
-/// @description This function returns the character position within a slice of the given character array
+/// @description Returns the character position within a slice of the given character array
 /// @argument {array} array The array of characters to check in
 /// @argument {number} from The position of the first character in the array
 /// @argument {number} to The position of the last character in the array
@@ -185,7 +185,7 @@ function char_array_pos_range(array, from, to, char, safe) {
 }
 
 /// @function char_array_pos_any(array, index, count, chars, safe)
-/// @description This function returns position of one of the characters from subarray
+/// @description Returns position of one of the characters from subarray
 /// and the appeared character itself within a slice of the given character array
 /// @argument {array} array The array of characters to check in
 /// @argument {number} index The position of the first character in the array to search from
@@ -203,7 +203,7 @@ function char_array_pos_any(array, index, count, chars, safe) {
 }
 
 /// @function char_array_pos_any_range(array, index, count, chars, safe)
-/// @description This function returns position of one of the characters from subarray
+/// @description Returns position of one of the characters from subarray
 /// and the appeared character itself within a slice of the given character array
 /// @argument {array} array The array of characters to check in
 /// @argument {number} from The position of the first character in the array
@@ -222,7 +222,7 @@ function char_array_pos_any_range(array, from, to, chars, safe) {
 	var sublength = array_length(chars);
 	for (var i = from; i < to; i++) {
 		for (var j = 0; j < sublength; j++) {
-			var c = chars[@ j];
+			var c = chars[j];
 			if (array[i] == c) {
 				return [i, c]
 			}
@@ -233,7 +233,7 @@ function char_array_pos_any_range(array, from, to, chars, safe) {
 }
 
 /// @function char_array_delete(array, length, index, count)
-/// @description This function can be used to remove a specific part of the given character array
+/// @description Removes a specific part of the given character array
 /// @argument {array} array The array of characters to delete from
 /// @argument {number} index The position of the first character in the array to delete from
 /// @argument {number} count The number of characters, starting from the position of the first
@@ -248,7 +248,7 @@ function char_array_delete(array, index, count, safe) {
 }
 
 /// @function char_array_delete_range(array, length, index, count)
-/// @description This function can be used to remove a specific part of the given character array
+/// @description Removes a specific part of the given character array
 /// @argument {array} array The array of characters to delete from
 /// @argument {number} from The position of the first character in the array
 /// @argument {number} to The position of the last character in the array
@@ -271,7 +271,7 @@ function char_array_delete_range(array, from, to, safe) {
 }
 
 /// @function char_array_insert(array, index, char, safe)
-/// @description This function can be used to insert the character in the given character array
+/// @description Inserts the character in the given position of the character array
 /// @argument {array} array The array of characters to insert to
 /// @argument {number} index The position in the array to insert the character
 /// @argument {string} char The character to insert
@@ -294,7 +294,7 @@ function char_array_insert(array, index, char, safe) {
 }
 
 /// function char_array_replace_range(array, from, to, char, safe)
-/// @description This function replaces all characters in a specific part of the given character array
+/// @description Replaces all characters in a specific part of the given character array
 /// @argument {array} array The array of characters in which to replace
 /// @argument {number} index The position of the first character in the array to replace from
 /// @argument {number} count The number of characters, starting from the position of the first
@@ -310,13 +310,13 @@ function char_array_replace(array, index, count, char, safe) {
 }
 
 /// function char_array_replace_range(array, from, to, char, safe)
-/// @description This function replaces all characters in a specific part of the given character array
+/// @description Replaces all characters in a specific part of the given character array
 /// @argument {array} array The array of characters in which to replace
 /// @argument {number} from The position of the first character in the array
 /// @argument {number} to The position of the last character in the array
 /// @argument {string} char The character to replace with
 /// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {array} Returns new array with specified part filled with the given character
+/// @returns {array} Returns new array with the specified part filled with the given character
 function char_array_replace_range(array, from, to, char, safe) {
 	if (safe) {
 		var length = array_length(array);
@@ -332,7 +332,7 @@ function char_array_replace_range(array, from, to, char, safe) {
 }
 
 /// @function char_array_remove(array, char)
-/// @description This function can be used to remove all occurrences of the given character
+/// @description Removes all occurrences of the given character
 /// @argument {array} array The array of characters to remove the given character from
 /// @argument {string} char The character to remove
 /// @returns {array} Returns new array without the given character
