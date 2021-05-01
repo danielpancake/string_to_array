@@ -98,7 +98,7 @@ function char_array_string_range(array, from, to, safe) {
 	}
 	
 	for (var i = from; i < to; i++) {
-		output += array[i];	
+		output += array[i];
 	}
 	
 	return output;
@@ -138,7 +138,7 @@ function char_array_count_range(array, from, to, char, safe) {
 	}
 	
 	for (var i = from; i < to; i++) {
-		if (array[i] == char) count++;
+		count += (array[i] == char);
 	}
 	
 	return count;
@@ -293,7 +293,7 @@ function char_array_insert(array, index, char, safe) {
 	return array;
 }
 
-/// function char_array_replace_range(array, from, to, char, safe)
+/// function char_array_replace(array, index, count, char, safe)
 /// @description Replaces all characters in a specific part of the given character array
 /// @argument {array} array The array of characters in which to replace
 /// @argument {number} index The position of the first character in the array to replace from
