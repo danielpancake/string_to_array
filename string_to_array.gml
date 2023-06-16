@@ -2,68 +2,68 @@
 /// @description Converts a string to a character array using a buffer and utf-8 byte encoding
 /// @argument {string} input String to split into characters array
 /// @argument {number} length The length of the given string
-/// @returns {array} Returns an array of characters
+/// @returns {array<string>} Returns an array of characters
 /*
-	Author: danielpancake
-	Date: 07.02.21
+  Author: danielpancake
+  Date: 07.02.21
 
-	https://danielpancake.github.io
+  https://danielpancake.github.io
 */
 function string_to_array(input, length) {
-	var array = array_create(length, "");
-	var char_index = 0;
-	
-	var i = 0;
-	var input_length = string_byte_length(input);
-	
-	// Create a buffer
-	var buffer = buffer_create(input_length, buffer_fixed, 1);
-	buffer_seek(buffer, buffer_seek_start, 0);
-	buffer_write(buffer, buffer_text, input);
-	
-	// Going through all bytes in the string
-	while (i < input_length) {
-		var byte = buffer_peek(buffer, i, buffer_u8);
-		var j = 0;
-		
-		// The last valid Unicode character starts with a byte _11110_100
-		// so we only care about the first five digits in the first byte
-		repeat (5) {
-			if (byte&(128>>j) == 0) {
-				break;
-			} else {
-				j++;
-			}
-		}
-		
-		var jj = 1;
-		
-		// Getting the unicode code of a character
-		var char = byte&(255>>j);
-		repeat (j - 1) {
-			var peek = buffer_peek(buffer, i + jj, buffer_u8);
-			char = (char<<6) | (peek&63);
-			jj++;
-		}
-		
-		// Writing the character to an array
-		array[char_index++] = chr(char);
-		
-		// If the character is encoded with only one byte, go to the next
-		if (j == 0) { i++; } else { i += j; }
-	}
-	
-	buffer_delete(buffer);
-	return array;
+  var array = array_create(length, "");
+  var char_index = 0;
+  
+  var i = 0;
+  var input_length = string_byte_length(input);
+  
+  // Create a buffer
+  var buffer = buffer_create(input_length, buffer_fixed, 1);
+  buffer_seek(buffer, buffer_seek_start, 0);
+  buffer_write(buffer, buffer_text, input);
+  
+  // Going through all bytes in the string
+  while (i < input_length) {
+    var byte = buffer_peek(buffer, i, buffer_u8);
+    var j = 0;
+    
+    // The last valid Unicode character starts with a byte _11110_100
+    // so we only care about the first five digits in the first byte
+    repeat (5) {
+      if (byte&(128>>j) == 0) {
+        break;
+      } else {
+        j++;
+      }
+    }
+    
+    var jj = 1;
+    
+    // Getting the unicode code of a character
+    var char = byte&(255>>j);
+    repeat (j - 1) {
+      var peek = buffer_peek(buffer, i + jj, buffer_u8);
+      char = (char<<6) | (peek&63);
+      jj++;
+    }
+    
+    // Writing the character to an array
+    array[char_index++] = chr(char);
+    
+    // If the character is encoded with only one byte, go to the next
+    if (j == 0) { i++; } else { i += j; }
+  }
+  
+  buffer_delete(buffer);
+  return array;
 }
 
 /*
-	Additional functions for working with character arrays
+  Additional functions for working with character arrays
 
-	These functions are designed similarly to the string_* gml functions
-	Note that unlike gml strings, character arrays start at index 0, not 1
-	Most char_array_* functions have a "safe" argument. When this argument is true,
-	index doesn't leave the bounds of the character array, and therefore function won't throw an error
+  These functions are designed similarly to the string_* gml functions
+  Note that unlike gml strings, character arrays start at index 0, not 1
+  Most char_array_* functions have a "safe" argument. When this argument is true,
+  index doesn't leave the bounds of the character array, and therefore function won't throw an error
 */
 
 /// @function char_array_string(array, index, count, safe)
@@ -74,11 +74,11 @@ function string_to_array(input, length) {
 /// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
 /// @returns {string} Returns a string from a slice of the given character array
 function char_array_string(array, index, count, safe) {
-	if (count >= 0) {
-		return char_array_string_range(array, index, index + count, safe);
-	} else {
-		return char_array_string_range(array, index + count + 1, index + 1, safe);
-	}
+  if (count >= 0) {
+    return char_array_string_range(array, index, index + count, safe);
+  }
+  
+  return char_array_string_range(array, index + count + 1, index + 1, safe);
 }
 
 /// @function char_array_string_range(array, from, to, safe)
@@ -89,19 +89,19 @@ function char_array_string(array, index, count, safe) {
 /// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
 /// @returns {string} Returns a string from a slice of the given character array
 function char_array_string_range(array, from, to, safe) {
-	var output = "";
-	
-	if (safe) {
-		var length = array_length(array);
-		from = clamp(from, 0, length - 1);
-		to = clamp(to, 1, length);
-	}
-	
-	for (var i = from; i < to; i++) {
-		output += array[i];
-	}
-	
-	return output;
+  var output = "";
+  
+  if (safe) {
+    var length = array_length(array);
+    from = clamp(from, 0, length - 1);
+    to = clamp(to, 1, length);
+  }
+  
+  for (var i = from; i < to; i++) {
+    output += array[i];
+  }
+  
+  return output;
 }
 
 /// @function char_array_count(array, index, count, char, safe)
@@ -113,11 +113,11 @@ function char_array_string_range(array, from, to, safe) {
 /// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
 /// @returns {number} Returns the amount of times the given character appears within a slice of the character array
 function char_array_count(array, index, count, char, safe) {
-	if (count >= 0) {
-		return char_array_count_range(array, index, index + count, char, safe);
-	} else {
-		return char_array_count_range(array, index + count + 1, index + 1, char, safe);
-	}
+  if (count >= 0) {
+    return char_array_count_range(array, index, index + count, char, safe);
+  } else {
+    return char_array_count_range(array, index + count + 1, index + 1, char, safe);
+  }
 }
 
 /// @function char_array_count_range(array, from, to, char, safe)
@@ -129,19 +129,19 @@ function char_array_count(array, index, count, char, safe) {
 /// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
 /// @returns {number} Returns the amount of times the given character appears within a slice of the character array
 function char_array_count_range(array, from, to, char, safe) {
-	var count = 0;
-		
-	if (safe) {
-		var length = array_length(array);
-		from = clamp(from, 0, length - 1);
-		to = clamp(to, 1, length);
-	}
-	
-	for (var i = from; i < to; i++) {
-		count += (array[i] == char);
-	}
-	
-	return count;
+  var count = 0;
+    
+  if (safe) {
+    var length = array_length(array);
+    from = clamp(from, 0, length - 1);
+    to = clamp(to, 1, length);
+  }
+  
+  for (var i = from; i < to; i++) {
+    count += real(array[i] == char);
+  }
+  
+  return count;
 }
 
 /// @function char_array_pos(array, index, count, char, safe)
@@ -153,11 +153,11 @@ function char_array_count_range(array, from, to, char, safe) {
 /// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
 /// @returns {number} Returns position of the given character within a slice of the character array
 function char_array_pos(array, index, count, char, safe) {
-	if (count >= 0) {
-		return char_array_pos_range(array, index, index + count, char, safe);
-	} else {
-		return char_array_pos_range(array, index + count + 1, index + 1, char, safe);
-	}
+  if (count >= 0) {
+    return char_array_pos_range(array, index, index + count, char, safe);
+  } else {
+    return char_array_pos_range(array, index + count + 1, index + 1, char, safe);
+  }
 }
 
 /// @function char_array_pos_range(array, from, to, char, safe)
@@ -169,19 +169,19 @@ function char_array_pos(array, index, count, char, safe) {
 /// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
 /// @returns {number} Returns position of the given character within a slice of the character array
 function char_array_pos_range(array, from, to, char, safe) {
-	if (safe) {
-		var length = array_length(array);
-		from = clamp(from, 0, length - 1);
-		to = clamp(to, 1, length);
-	}
-	
-	for (var i = from; i < to; i++) {
-		if (array[i] == char) {
-			return i;
-		}
-	}
-	
-	return -1;
+  if (safe) {
+    var length = array_length(array);
+    from = clamp(from, 0, length - 1);
+    to = clamp(to, 1, length);
+  }
+  
+  for (var i = from; i < to; i++) {
+    if (array[i] == char) {
+      return i;
+    }
+  }
+  
+  return -1;
 }
 
 /// @function char_array_pos_any(array, index, count, chars, safe)
@@ -195,11 +195,11 @@ function char_array_pos_range(array, from, to, char, safe) {
 /// @returns {array} Returns position of one of the characters from the subarray with the character itself
 /// within a slice of the character array
 function char_array_pos_any(array, index, count, chars, safe) {
-	if (count >= 0) {
-		return char_array_pos_any_range(array, index, index + count, chars, safe);
-	} else {
-		return char_array_pos_any_range(array, index + count + 1, index + 1, chars, safe);
-	}
+  if (count >= 0) {
+    return char_array_pos_any_range(array, index, index + count, chars, safe);
+  } else {
+    return char_array_pos_any_range(array, index + count + 1, index + 1, chars, safe);
+  }
 }
 
 /// @function char_array_pos_any_range(array, index, count, chars, safe)
@@ -213,23 +213,23 @@ function char_array_pos_any(array, index, count, chars, safe) {
 /// @returns {array} Returns position of one of the characters from the subarray with the character itself
 /// within a slice of the character array
 function char_array_pos_any_range(array, from, to, chars, safe) {
-	if (safe) {
-		var length = array_length(array);
-		from = clamp(from, 0, length - 1);
-		to = clamp(to, 1, length);
-	}
-	
-	var sublength = array_length(chars);
-	for (var i = from; i < to; i++) {
-		for (var j = 0; j < sublength; j++) {
-			var c = chars[j];
-			if (array[i] == c) {
-				return [i, c]
-			}
-		}
-	}
-	
-	return -1;
+  if (safe) {
+    var length = array_length(array);
+    from = clamp(from, 0, length - 1);
+    to = clamp(to, 1, length);
+  }
+  
+  var sublength = array_length(chars);
+  for (var i = from; i < to; i++) {
+    for (var j = 0; j < sublength; j++) {
+      var c = chars[j];
+      if (array[i] == c) {
+        return [i, c]
+      }
+    }
+  }
+  
+  return -1;
 }
 
 /// @function char_array_delete(array, length, index, count)
@@ -240,11 +240,11 @@ function char_array_pos_any_range(array, from, to, chars, safe) {
 /// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
 /// @returns {array} Returns new array without the specified part in it
 function char_array_delete(array, index, count, safe) {
-	if (count >= 0) {
-		return char_array_delete_range(array, index, index + count, safe);
-	} else {
-		return char_array_delete_range(array, index + count + 1, index + 1, safe);
-	}
+  if (count >= 0) {
+    return char_array_delete_range(array, index, index + count, safe);
+  } else {
+    return char_array_delete_range(array, index + count + 1, index + 1, safe);
+  }
 }
 
 /// @function char_array_delete_range(array, length, index, count)
@@ -255,19 +255,19 @@ function char_array_delete(array, index, count, safe) {
 /// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
 /// @returns {array} Returns new array without the specified part in it
 function char_array_delete_range(array, from, to, safe) {
-	var length = array_length(array);
-		
-	if (safe) {
-		from = clamp(from, 0, length - 1);
-		to = clamp(to, 1, length);
-	}
-	
-	for (var i = to; i < length; i++) {
-		array[i + from - to] = array[i];
-	}
-	
-	array_resize(array, length + from - to);
-	return array;
+  var length = array_length(array);
+    
+  if (safe) {
+    from = clamp(from, 0, length - 1);
+    to = clamp(to, 1, length);
+  }
+  
+  for (var i = to; i < length; i++) {
+    array[i + from - to] = array[i];
+  }
+  
+  array_resize(array, length + from - to);
+  return array;
 }
 
 /// @function char_array_insert(array, index, char, safe)
@@ -278,19 +278,19 @@ function char_array_delete_range(array, from, to, safe) {
 /// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
 /// @returns {array} Returns new array with inserted character in it
 function char_array_insert(array, index, char, safe) {
-	var length = array_length(array);
-	array_resize(array, length + 1);
-		
-	if (safe) {
-		index = clamp(index, 0, length);
-	}
-	
-	for (var i = length; i > index; i--) {
-		array[i] = array[i - 1];
-	}
-	
-	array[index] = char;
-	return array;
+  var length = array_length(array);
+  array_resize(array, length + 1);
+    
+  if (safe) {
+    index = clamp(index, 0, length);
+  }
+  
+  for (var i = length; i > index; i--) {
+    array[i] = array[i - 1];
+  }
+  
+  array[index] = char;
+  return array;
 }
 
 /// function char_array_replace(array, index, count, char, safe)
@@ -302,11 +302,11 @@ function char_array_insert(array, index, char, safe) {
 /// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
 /// @returns {array} Returns new array with specified part filled with the given character
 function char_array_replace(array, index, count, char, safe) {
-	if (count >= 0) {
-		return char_array_replace_range(array, index, index + count, char, safe);
-	} else {
-		return char_array_replace_range(array, index + count + 1, index + 1, char, safe);
-	}
+  if (count >= 0) {
+    return char_array_replace_range(array, index, index + count, char, safe);
+  } else {
+    return char_array_replace_range(array, index + count + 1, index + 1, char, safe);
+  }
 }
 
 /// function char_array_replace_range(array, from, to, char, safe)
@@ -318,17 +318,17 @@ function char_array_replace(array, index, count, char, safe) {
 /// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
 /// @returns {array} Returns new array with the specified part filled with the given character
 function char_array_replace_range(array, from, to, char, safe) {
-	if (safe) {
-		var length = array_length(array);
-		from = clamp(from, 0, length - 1);
-		to = clamp(to, 1, length);
-	}
-	
-	for (var i = from; i < to; i++) {
-		array[i] = char;
-	}
-	
-	return array;
+  if (safe) {
+    var length = array_length(array);
+    from = clamp(from, 0, length - 1);
+    to = clamp(to, 1, length);
+  }
+  
+  for (var i = from; i < to; i++) {
+    array[i] = char;
+  }
+  
+  return array;
 }
 
 /// @function char_array_remove(array, char)
@@ -337,17 +337,17 @@ function char_array_replace_range(array, from, to, char, safe) {
 /// @argument {string} char The character to remove
 /// @returns {array} Returns new array without the given character
 function char_array_remove(array, char) {
-	var length = array_length(array);
-	var removed = 0;
-	
-	for (var i = 0; i < length; i++) {
-		if (array[i] == char) {
-			removed++;
-		} else {
-			array[i - removed] = array[i];
-		}
-	}
-	
-	array_resize(array, length - removed);
-	return array;
+  var length = array_length(array);
+  var removed = 0;
+  
+  for (var i = 0; i < length; i++) {
+    if (array[i] == char) {
+      removed++;
+    } else {
+      array[i - removed] = array[i];
+    }
+  }
+  
+  array_resize(array, length - removed);
+  return array;
 }
