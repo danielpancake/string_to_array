@@ -1,14 +1,14 @@
-/// @function string_to_array(input, length)
-/// @description Converts a string to a character array using a buffer and utf-8 byte encoding
-/// @argument {string} input String to split into characters array
-/// @argument {number} length The length of the given string
-/// @returns {array<string>} Returns an array of characters
 /*
   Author: danielpancake
   Date: 07.02.21
-
+  
   https://danielpancake.github.io
 */
+/// @function string_to_array(input, length)
+/// @description Converts a string to a character array using a buffer and utf-8 byte encoding
+/// @argument {String} input String to split into characters array
+/// @argument {Real} length The length of the given string
+/// @returns {Array<String>} Returns an array of characters
 function string_to_array(input, length) {
   var array = array_create(length, "");
   var char_index = 0;
@@ -68,11 +68,11 @@ function string_to_array(input, length) {
 
 /// @function char_array_string(array, index, count, safe)
 /// @description Returns a string from a slice of the given character array
-/// @argument {array} array The array of characters to make string from
-/// @argument {number} index The position of the first character in the array to copy from
-/// @argument {number} count The number of characters, starting from the position of the first
-/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {string} Returns a string from a slice of the given character array
+/// @argument {Array<String>} array The array of characters to make string from
+/// @argument {Real} index The position of the first character in the array to copy from
+/// @argument {Real} count The number of characters, starting from the position of the first
+/// @argument {Bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {String} Returns a string from a slice of the given character array
 function char_array_string(array, index, count, safe) {
   if (count >= 0) {
     return char_array_string_range(array, index, index + count, safe);
@@ -83,11 +83,11 @@ function char_array_string(array, index, count, safe) {
 
 /// @function char_array_string_range(array, from, to, safe)
 /// @description Returns a string from a slice of the given character array
-/// @argument {array} array The array of characters to make string from
-/// @argument {number} from The position of the first character in the array
-/// @argument {number} to The position of the last character in the array
-/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {string} Returns a string from a slice of the given character array
+/// @argument {Array<String>} array The array of characters to make string from
+/// @argument {Real} from The position of the first character in the array
+/// @argument {Real} to The position of the last character in the array
+/// @argument {Bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {String} Returns a string from a slice of the given character array
 function char_array_string_range(array, from, to, safe) {
   var output = "";
   
@@ -106,12 +106,12 @@ function char_array_string_range(array, from, to, safe) {
 
 /// @function char_array_count(array, index, count, char, safe)
 /// @description Returns the amount of times the given character appears within a slice of the given character array
-/// @argument {array} array The array of characters to check in
-/// @argument {number} index The position of the first character in the array to count from
-/// @argument {number} count The number of characters, starting from the position of the first
-/// @argument {string} char The character to check
-/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {number} Returns the amount of times the given character appears within a slice of the character array
+/// @argument {Array<String>} array The array of characters to check in
+/// @argument {Real} index The position of the first character in the array to count from
+/// @argument {Real} count The number of characters, starting from the position of the first
+/// @argument {String} char The character to check
+/// @argument {Bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {Real} Returns the amount of times the given character appears within a slice of the character array
 function char_array_count(array, index, count, char, safe) {
   if (count >= 0) {
     return char_array_count_range(array, index, index + count, char, safe);
@@ -122,12 +122,12 @@ function char_array_count(array, index, count, char, safe) {
 
 /// @function char_array_count_range(array, from, to, char, safe)
 /// @description Returns the amount of times the given character appears within a slice of the given character array
-/// @argument {array} array The array of characters to check in
-/// @argument {number} from The position of the first character in the array
-/// @argument {number} to The position of the last character in the array
-/// @argument {string} char The character to check
-/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {number} Returns the amount of times the given character appears within a slice of the character array
+/// @argument {Array<String>} array The array of characters to check in
+/// @argument {Real} from The position of the first character in the array
+/// @argument {Real} to The position of the last character in the array
+/// @argument {String} char The character to check
+/// @argument {Bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {Real} Returns the amount of times the given character appears within a slice of the character array
 function char_array_count_range(array, from, to, char, safe) {
   var count = 0;
     
@@ -146,12 +146,12 @@ function char_array_count_range(array, from, to, char, safe) {
 
 /// @function char_array_pos(array, index, count, char, safe)
 /// @description Returns the character position within a slice of the given character array
-/// @argument {array} array The array of characters to check in
-/// @argument {number} index The position of the first character in the array to search from
-/// @argument {number} count The number of characters, starting from the position of the first
-/// @argument {string} char The character to check
-/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {number} Returns position of the given character within a slice of the character array
+/// @argument {Array<String>} array The array of characters to check in
+/// @argument {Real} index The position of the first character in the array to search from
+/// @argument {Real} count The number of characters, starting from the position of the first
+/// @argument {String} char The character to check
+/// @argument {Bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {Real} Returns position of the given character within a slice of the character array
 function char_array_pos(array, index, count, char, safe) {
   if (count >= 0) {
     return char_array_pos_range(array, index, index + count, char, safe);
@@ -162,12 +162,12 @@ function char_array_pos(array, index, count, char, safe) {
 
 /// @function char_array_pos_range(array, from, to, char, safe)
 /// @description Returns the character position within a slice of the given character array
-/// @argument {array} array The array of characters to check in
-/// @argument {number} from The position of the first character in the array
-/// @argument {number} to The position of the last character in the array
-/// @argument {string} char The character to check
-/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {number} Returns position of the given character within a slice of the character array
+/// @argument {Array<String>} array The array of characters to check in
+/// @argument {Real} from The position of the first character in the array
+/// @argument {Real} to The position of the last character in the array
+/// @argument {String} char The character to check
+/// @argument {Bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {Real} Returns position of the given character within a slice of the character array
 function char_array_pos_range(array, from, to, char, safe) {
   if (safe) {
     var length = array_length(array);
@@ -187,12 +187,12 @@ function char_array_pos_range(array, from, to, char, safe) {
 /// @function char_array_pos_any(array, index, count, chars, safe)
 /// @description Returns position of one of the characters from subarray
 /// and the appeared character itself within a slice of the given character array
-/// @argument {array} array The array of characters to check in
-/// @argument {number} index The position of the first character in the array to search from
-/// @argument {number} count The number of characters, starting from the position of the first
-/// @argument {array} chars The subarray of characters
-/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {array} Returns position of one of the characters from the subarray with the character itself
+/// @argument {Array<String>} array The array of characters to check in
+/// @argument {Real} index The position of the first character in the array to search from
+/// @argument {Real} count The number of characters, starting from the position of the first
+/// @argument {Array<String>} chars The subarray of characters
+/// @argument {Bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {Array<Any>} Returns position of one of the characters from the subarray with the character itself
 /// within a slice of the character array
 function char_array_pos_any(array, index, count, chars, safe) {
   if (count >= 0) {
@@ -205,12 +205,12 @@ function char_array_pos_any(array, index, count, chars, safe) {
 /// @function char_array_pos_any_range(array, index, count, chars, safe)
 /// @description Returns position of one of the characters from subarray
 /// and the appeared character itself within a slice of the given character array
-/// @argument {array} array The array of characters to check in
-/// @argument {number} from The position of the first character in the array
-/// @argument {number} to The position of the last character in the array
-/// @argument {array} chars The subarray of characters
-/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {array} Returns position of one of the characters from the subarray with the character itself
+/// @argument {Array<String>} array The array of characters to check in
+/// @argument {Real} from The position of the first character in the array
+/// @argument {Real} to The position of the last character in the array
+/// @argument {Array<String>} chars The subarray of characters
+/// @argument {Bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {Array<Any>} Returns position of one of the characters from the subarray with the character itself
 /// within a slice of the character array
 function char_array_pos_any_range(array, from, to, chars, safe) {
   if (safe) {
@@ -229,16 +229,16 @@ function char_array_pos_any_range(array, from, to, chars, safe) {
     }
   }
   
-  return -1;
+  return [-1, ""];
 }
 
 /// @function char_array_delete(array, length, index, count)
 /// @description Removes a specific part of the given character array
-/// @argument {array} array The array of characters to delete from
-/// @argument {number} index The position of the first character in the array to delete from
-/// @argument {number} count The number of characters, starting from the position of the first
-/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {array} Returns new array without the specified part in it
+/// @argument {Array<String>} array The array of characters to delete from
+/// @argument {Real} index The position of the first character in the array to delete from
+/// @argument {Real} count The number of characters, starting from the position of the first
+/// @argument {Bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {Array<String>} Returns new array without the specified part in it
 function char_array_delete(array, index, count, safe) {
   if (count >= 0) {
     return char_array_delete_range(array, index, index + count, safe);
@@ -249,11 +249,11 @@ function char_array_delete(array, index, count, safe) {
 
 /// @function char_array_delete_range(array, length, index, count)
 /// @description Removes a specific part of the given character array
-/// @argument {array} array The array of characters to delete from
-/// @argument {number} from The position of the first character in the array
-/// @argument {number} to The position of the last character in the array
-/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {array} Returns new array without the specified part in it
+/// @argument {Array<String>} array The array of characters to delete from
+/// @argument {Real} from The position of the first character in the array
+/// @argument {Real} to The position of the last character in the array
+/// @argument {Bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {Array<String>} Returns new array without the specified part in it
 function char_array_delete_range(array, from, to, safe) {
   var length = array_length(array);
     
@@ -272,11 +272,11 @@ function char_array_delete_range(array, from, to, safe) {
 
 /// @function char_array_insert(array, index, char, safe)
 /// @description Inserts the character in the given position of the character array
-/// @argument {array} array The array of characters to insert to
-/// @argument {number} index The position in the array to insert the character
-/// @argument {string} char The character to insert
-/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {array} Returns new array with inserted character in it
+/// @argument {Array<String>} array The array of characters to insert to
+/// @argument {Real} index The position in the array to insert the character
+/// @argument {String} char The character to insert
+/// @argument {Bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {Array<String>} Returns new array with inserted character in it
 function char_array_insert(array, index, char, safe) {
   var length = array_length(array);
   array_resize(array, length + 1);
@@ -295,12 +295,12 @@ function char_array_insert(array, index, char, safe) {
 
 /// function char_array_replace(array, index, count, char, safe)
 /// @description Replaces all characters in a specific part of the given character array
-/// @argument {array} array The array of characters in which to replace
-/// @argument {number} index The position of the first character in the array to replace from
-/// @argument {number} count The number of characters, starting from the position of the first
-/// @argument {string} char The character to replace with
-/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {array} Returns new array with specified part filled with the given character
+/// @argument {Array<String>} array The array of characters in which to replace
+/// @argument {Real} index The position of the first character in the array to replace from
+/// @argument {Real} count The number of characters, starting from the position of the first
+/// @argument {String} char The character to replace with
+/// @argument {Bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {Array<String>} Returns new array with specified part filled with the given character
 function char_array_replace(array, index, count, char, safe) {
   if (count >= 0) {
     return char_array_replace_range(array, index, index + count, char, safe);
@@ -311,12 +311,12 @@ function char_array_replace(array, index, count, char, safe) {
 
 /// function char_array_replace_range(array, from, to, char, safe)
 /// @description Replaces all characters in a specific part of the given character array
-/// @argument {array} array The array of characters in which to replace
-/// @argument {number} from The position of the first character in the array
-/// @argument {number} to The position of the last character in the array
-/// @argument {string} char The character to replace with
-/// @argument {bool} safe When this argument is true, index doesn't leave the character array bounds
-/// @returns {array} Returns new array with the specified part filled with the given character
+/// @argument {Array<String>} array The array of characters in which to replace
+/// @argument {Real} from The position of the first character in the array
+/// @argument {Real} to The position of the last character in the array
+/// @argument {String} char The character to replace with
+/// @argument {Bool} safe When this argument is true, index doesn't leave the character array bounds
+/// @returns {Array<String>} Returns new array with the specified part filled with the given character
 function char_array_replace_range(array, from, to, char, safe) {
   if (safe) {
     var length = array_length(array);
@@ -333,9 +333,9 @@ function char_array_replace_range(array, from, to, char, safe) {
 
 /// @function char_array_remove(array, char)
 /// @description Removes all occurrences of the given character
-/// @argument {array} array The array of characters to remove the given character from
-/// @argument {string} char The character to remove
-/// @returns {array} Returns new array without the given character
+/// @argument {Array<String>} array The array of characters to remove the given character from
+/// @argument {String} char The character to remove
+/// @returns {Array<String>} Returns new array without the given character
 function char_array_remove(array, char) {
   var length = array_length(array);
   var removed = 0;
