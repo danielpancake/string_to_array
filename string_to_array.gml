@@ -1,60 +1,81 @@
 /*
   Author: danielpancake
-  Date: 07.02.21
+  Release date: 07.02.21
+  Last updated: 28.07.23
   
   https://danielpancake.github.io
 */
-/// @function string_to_array(input, length)
+/// @function string_to_array(_str, _length)
 /// @description Converts a string to a character array using a buffer and utf-8 byte encoding
-/// @argument {String} input String to split into characters array
-/// @argument {Real} length The length of the given string
+/// @argument {String} _str String to split into characters array
+/// @argument {Real} _length The length of the given string
 /// @returns {Array<String>} Returns an array of characters
-function string_to_array(input, length) {
-  var array = array_create(length, "");
-  var char_index = 0;
+function string_to_array(_str, _length) {
+  var _output_arr = array_create(_length, chr(0));
+  var _output_curr = 0;
   
-  var i = 0;
-  var input_length = string_byte_length(input);
+  var _str_bytes = string_byte_length(_str);
   
-  // Create a buffer
-  var buffer = buffer_create(input_length, buffer_fixed, 1);
-  buffer_seek(buffer, buffer_seek_start, 0);
-  buffer_write(buffer, buffer_text, input);
+  // Creating a buffer
+  var _buff = buffer_create(_str_bytes, buffer_fixed, 1);
+  buffer_seek(_buff, buffer_seek_start, 0);
+  buffer_write(_buff, buffer_text, _str);
   
-  // Going through all bytes in the string
-  while (i < input_length) {
-    var byte = buffer_peek(buffer, i, buffer_u8);
-    var j = 0;
+  // Allocating variables
+  var _byte = 0;
+  var _byte_offset = 0;
+  var _byte_offset_ahead = 0;
+  
+  var _bit_offset = 0;
+  
+  var _char = chr(0);
+  var _peek = 0;
+  
+  // Iterating through bytes
+  while (_byte_offset < _str_bytes) {
+    _byte = buffer_peek(_buff, _byte_offset, buffer_u8);
     
-    // The last valid Unicode character starts with a byte _11110_100
-    // so we only care about the first five digits in the first byte
+    // We will check the first byte of the sequence
+    // to match how bytes a character occupies
+    //
+    // 0_xxxxxxx - 1 byte;
+    // 110_xxxxx - 2 bytes;
+    // 1110_xxxx - 3 bytes;
+    // 11110_xxx - 4 bytes.
+    //
+    // Checking first 5 bits is enough
+    _bit_offset = 0;
     repeat (5) {
-      if (byte&(128>>j) == 0) {
+      if (_byte & (128 >> _bit_offset)) { // bit is one
+        _bit_offset += 1;
+      } else { // bit is zero
         break;
-      } else {
-        j++;
       }
     }
     
-    var jj = 1;
+    // TODO: Invalid byte handling maybe?
     
-    // Getting the unicode code of a character
-    var char = byte&(255>>j);
-    repeat (j - 1) {
-      var peek = buffer_peek(buffer, i + jj, buffer_u8);
-      char = (char<<6) | (peek&63);
-      jj++;
+    _byte_offset_ahead = 0;
+    
+    _char = _byte & (255 >> _bit_offset);
+    repeat (_bit_offset - 1) {
+      _peek = buffer_peek(_buff, _byte_offset + _byte_offset_ahead, buffer_u8);
+      
+      // TODO: Invalid byte handling here? Bytes must begin with 10_xxxxxx
+      
+      // Adding bytes to the character sequence
+      _char = (_char << 6) | (_peek & 63);
+      _byte_offset_ahead += 1;
     }
     
-    // Writing the character to an array
-    array[char_index++] = chr(char);
+    _output_arr[_output_curr] = chr(_char);
+    _output_curr += 1;
     
-    // If the character is encoded with only one byte, go to the next
-    if (j == 0) { i++; } else { i += j; }
+    _byte_offset += min(1, _bit_offset);
   }
   
-  buffer_delete(buffer);
-  return array;
+  buffer_delete(_buff);
+  return _output_arr;
 }
 
 /*
