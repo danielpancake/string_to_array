@@ -257,7 +257,7 @@ function char_array_pos_range(_char_arr, _from, _to, _char) {
 /// @argument {Array<String>} _char_arr The character array
 /// @argument {Array<String>} _chars Characters to match
 /// @pure
-/// @returns {Array<String>} Index and character of the first match
+/// @returns {Struct} Index and character of the first match
 function char_array_pos_any_match(_char_arr, _chars) {
   return char_array_pos_any_match_slice(_char_arr, 0,  array_length(_char_arr), _chars);
 }
@@ -269,7 +269,7 @@ function char_array_pos_any_match(_char_arr, _chars) {
 /// @argument {Real} _count Number of characters to check
 /// @argument {Array<String>} _chars Characters to match
 /// @pure
-/// @returns {Array<String>} Index and character of the first match in slice
+/// @returns {Struct} Index and character of the first match in slice
 function char_array_pos_any_match_slice(_char_arr, _index, _count, _chars) {
   if (_count >= 0) {
     return char_array_pos_any_match_range(_char_arr, _index, _index + _count, _chars);
@@ -283,7 +283,7 @@ function char_array_pos_any_match_slice(_char_arr, _index, _count, _chars) {
 /// @argument {Real} _from The starting index
 /// @argument {Real} _to The ending index
 /// @argument {Array<String>} _chars Characters to match
-/// @returns {Array<String>} Index and character of the first match in range
+/// @returns {Struct} Index and character of the first match in range
 function char_array_pos_any_match_range(_char_arr, _from, _to, _chars) {
   var _chars_len = array_length(_chars);
 
@@ -292,12 +292,18 @@ function char_array_pos_any_match_range(_char_arr, _from, _to, _chars) {
       var _c = _chars[_j];
 
       if (_char_arr[_i] == _c) {
-        return [_i, _c];
+        return {
+          char: _c,
+          position: _i,
+        };
       }
     }
   }
 
-  return [-1, ""];
+  return {
+    char: "",
+    position: -1,
+  };
 }
 #endregion
 
