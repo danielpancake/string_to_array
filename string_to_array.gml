@@ -101,21 +101,21 @@ function string_to_array(_str, _length) {
  */
 
 /// @function char_array_insert(_char_arr, _index, _char)
-/// @description Inserts a character at the given index in the character array
+/// @description Inserts a character at the given index in the character array.
+///              Note: this affects the original array!
 /// @argument {Array<String>} _char_arr The character array to insert into
 /// @argument {Real} _index The index to insert at
 /// @argument {String} _char The character to insert
-/// @pure
-/// @returns {Array<String>} Returns a new character array with the inserted character in it
+/// @returns {Array<String>} Reference to the original character array
 function char_array_insert(_char_arr, _index, _char) {
   var _char_arr_len = array_length(_char_arr);
   array_resize(_char_arr, _char_arr_len + 1);
 
   for (var _i = _char_arr_len; _i > _index; --_i) {
-    _char_arr[_i] = _char_arr[_i - 1];
+    _char_arr[@ _i] = _char_arr[_i - 1];
   }
 
-  _char_arr[_index] = _char;
+  _char_arr[@ _index] = _char;
   return _char_arr;
 }
 
@@ -283,6 +283,7 @@ function char_array_pos_any_match_slice(_char_arr, _index, _count, _chars) {
 /// @argument {Real} _from The starting index
 /// @argument {Real} _to The ending index
 /// @argument {Array<String>} _chars Characters to match
+/// @pure
 /// @returns {Struct} Index and character of the first match in range
 function char_array_pos_any_match_range(_char_arr, _from, _to, _chars) {
   var _chars_len = array_length(_chars);
@@ -309,22 +310,22 @@ function char_array_pos_any_match_range(_char_arr, _from, _to, _chars) {
 
 #region char_array_delete
 /// @function char_array_delete(_char_arr, _index)
-/// @description Deletes character at index
+/// @description Deletes character at index.
+///              Note: this affects the original array!
 /// @argument {Array<String>} _char_arr The character array
 /// @argument {Real} _index Index to delete
-/// @pure
-/// @returns {Array<String>} Character array with character deleted
+/// @returns {Array<String>} Reference to the original character array
 function char_array_delete(_char_arr, _index) {
   return char_array_delete_slice(_char_arr, _index, 1);
 }
 
 /// @function char_array_delete_slice(_char_arr, _index, _count)
 /// @description Deletes a slice of characters
+///              Note: this affects the original array!
 /// @argument {Array<String>} _char_arr The character array
 /// @argument {Real} _index The starting index
 /// @argument {Real} _count Number of characters to check
-/// @pure
-/// @returns {Array<String>} Character array with the slice deleted
+/// @returns {Array<String>} Reference to the original character array
 function char_array_delete_slice(_char_arr, _index, _count) {
   if (_count >= 0) {
     return char_array_delete_range(_char_arr, _index, _index + _count);
@@ -334,17 +335,16 @@ function char_array_delete_slice(_char_arr, _index, _count) {
 
 /// @function char_array_delete_range(_char_arr, _from, _to)
 /// @description Deletes a range of characters
+///              Note: this affects the original array!
 /// @argument {Array<String>} _char_arr The character array
 /// @argument {Real} _from The starting index
 /// @argument {Real} _to The ending index
-/// @pure
-/// @returns {Array<String>}  Character array with the range deleted
+/// @returns {Array<String>} Reference to the original character array
 function char_array_delete_range(_char_arr, _from, _to) {
   var _char_arr_len = array_length(_char_arr);
 
   for (var _i = _to; _i < _char_arr_len; ++_i) {
-    // Modifying the copy of the array
-    _char_arr[_i + _from - _to] = _char_arr[_i];
+    _char_arr[@ _i + _from - _to] = _char_arr[_i];
   }
 
   array_resize(_char_arr, _char_arr_len + _from - _to);
@@ -355,24 +355,24 @@ function char_array_delete_range(_char_arr, _from, _to) {
 #region char_array_set
 /// @function char_array_set(_char_arr, _index, _char)
 /// @description Sets character at index of the character array
+///              Note: this affects the original array!
 /// @argument {Array<String>} _char_arr The character array
 /// @argument {Real} _index Index to set
 /// @argument {String} _char Character to set
-/// @pure
-/// @returns {Array<String>} Character array with character set
+/// @returns {Array<String>} Reference to the original character array
 function char_array_set(_char_arr, _index, _char) {
-  _char_arr[_index] = _char;
+  _char_arr[@ _index] = _char;
   return _char_arr;
 }
 
 /// @function char_array_set_slice(_char_arr, _index, _count, _char)
 /// @description Sets a slice of characters in the character array
+///              Note: this affects the original array!
 /// @argument {Array<String>} _char_arr The character array
 /// @argument {Real} _index The starting index
 /// @argument {Real} _count Number of characters to check
 /// @argument {String} _char Character to set to
-/// @pure
-/// @returns {Array<String>} Character array with slice set to the given character
+/// @returns {Array<String>} Reference to the original character array
 function char_array_set_slice(_char_arr, _index, _count, _char) {
   if (_count >= 0) {
     return char_array_set_range(_char_arr, _index, _index + _count, _char);
@@ -382,17 +382,17 @@ function char_array_set_slice(_char_arr, _index, _count, _char) {
 
 /// @function char_array_set_range(_char_arr, _from, _to, _char)
 /// @description Sets a range of characters in the character array
+///              Note: this affects the original array!
 /// @argument {Array<String>} _char_arr The character array
 /// @argument {Real} _from The starting index
 /// @argument {Real} _to The ending index
 /// @argument {String} _char Character to set to
-/// @pure
-/// @returns {Array<String>} Character array with range set to the given character
+/// @returns {Array<String>} Reference to the original character array
 function char_array_set_range(_char_arr, _from, _to, _char) {
   for (var _i = _from; _i < _to; ++_i) {
-    _char_arr[_i] = _char;
+    _char_arr[@ _i] = _char;
   }
-
+  
   return _char_arr;
 }
 #endregion
@@ -400,10 +400,10 @@ function char_array_set_range(_char_arr, _from, _to, _char) {
 #region char_array_remove
 /// @function char_array_remove(_char_arr, _char)
 /// @description Removes all occurrences of a character
+///              Note: this affects the original array!
 /// @argument {Array<String>} _char_arr The character array
 /// @argument {String} _char Character to remove
-/// @pure
-/// @returns {Array<String>} Character array with character removed
+/// @returns {Array<String>} Reference to the original character array
 function char_array_remove(_char_arr, _char) {
   return char_array_remove_slice(_char_arr, 0, array_length(_char_arr), _char);
 }
@@ -414,8 +414,7 @@ function char_array_remove(_char_arr, _char) {
 /// @argument {Real} _index The starting index
 /// @argument {Real} _count Number of characters to check
 /// @argument {String} _char Character to remove
-/// @pure
-/// @returns {Array<String>} Character array with character removed from the slice
+/// @returns {Array<String>} Reference to the original character array
 function char_array_remove_slice(_char_arr, _index, _count, _char) {
   if (_count >= 0) {
     return char_array_remove_range(_char_arr, _index, _index + _count, _char);
@@ -425,12 +424,12 @@ function char_array_remove_slice(_char_arr, _index, _count, _char) {
 
 /// @function char_array_remove_range(_char_arr, _from, _to, _char)
 /// @description Removes occurrences of a character from a range of the character array
+///              Note: this affects the original array!
 /// @argument {Array<String>} _char_arr The character array
 /// @argument {Real} _from The starting index
 /// @argument {Real} _to The ending index
 /// @argument {String} _char Character to remove
-/// @pure
-/// @returns {Array<String>} Character array with character removed from the range
+/// @returns {Array<String>} Reference to the original character array
 function char_array_remove_range(_char_arr, _from, _to, _char) {
   var _char_arr_len = array_length(_char_arr);
   var _removed_count = 0;
@@ -439,7 +438,7 @@ function char_array_remove_range(_char_arr, _from, _to, _char) {
     if (_i < _to && _char_arr[_i] == _char) {
       _removed_count += 1;
     } else {
-      _char_arr[_i - _removed_count] = _char_arr[_i];
+      _char_arr[@ _i - _removed_count] = _char_arr[_i];
     }
   }
 
